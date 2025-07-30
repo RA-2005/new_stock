@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ coin }} Prediction</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>{{ coin }} - Next 7 Days Predicted Prices</h2>
+        <img src="/{{ img_path }}" width="600">
+        <h3>Values:</h3>
+        <ul>
+        {% for price in predicted %}
+            <li>${{ "%.2f"|format(price) }}</li>
+        {% endfor %}
+        </ul>
+        <br>
+        <a href="/">Back</a>
+    </div>
+</body>
+</html>

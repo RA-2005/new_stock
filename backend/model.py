@@ -1,11 +1,13 @@
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
-from keras.models import Sequential
-from keras.layers import LSTM, Dense
+import keras
+
 
 def train_predict_model(csv_path):
     df = pd.read_csv(csv_path)
+
+    df['Close'] = df['Close'].replace(',', '', regex=True).astype(float)
     data = df['Close'].values.reshape(-1, 1)
     
     scaler = MinMaxScaler()
@@ -19,10 +21,10 @@ def train_predict_model(csv_path):
         
     X, y = np.array(X), np.array(y)
 
-    model = Sequential()
-    model.add(LSTM(units=50, return_sequences=True, input_shape=(X.shape[1], 1)))
-    model.add(LSTM(units=50))
-    model.add(Dense(1))
+    model = keras.models.Sequential()
+    model.add(keras.layers.LSTM(units=50, return_sequences=True, input_shape=(X.shape[1], 1)))
+    model.add(keras.layers.LSTM(units=50))
+    model.add(keras.layers.Dense(1))
     
     model.compile(loss='mean_squared_error', optimizer='adam')
     model.fit(X, y, epochs=5, batch_size=32, verbose=1)
